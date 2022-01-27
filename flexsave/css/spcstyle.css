@@ -1,0 +1,16 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+
+
+.simple-price-calc {font-size: 14px; font-family:'Open Sans';}
+.simple-price-calc button {display:inline-block; margin-top:20px; border:1px solid #ddd; padding:7px 10px; border-radius:5px; background:#2c3e50; color:white;}
+#simple-price-total {margin-top:15px;}
+#simple-price-total label{color:green; font-weight:bold; font-size:20px; } 
+.fixed-total #sidebar {position:fixed; left:85%; top:20%; padding:25px; background:white; min-width:100px; border:1px solid #eee;}
+
+/* Responsive Code for sidebar */
+
+@media only screen 
+and (min-width : 220px) 
+and (max-width : 800px) {
+.fixed-total #sidebar {position:relative; border:none; left:0; top:0;}
+}

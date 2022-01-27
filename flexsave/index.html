@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+	<link rel="stylesheet" href="css/examplespcstyle.css" type="text/css"  />
+
+	<script src="js/jquery-3.3.1.min.js"></script> 
+	<script src="js/jquery.number.min.js"></script>	
+	<script src="js/custompricecalc.js"></script> 		
+	<script>
+		$(document).ready( function ($) {
+				$("#quoteform").SimplePriceCalc();
+				
+				$("#quoteform #submit").click( function (e) {
+					e.preventDefault();
+					alert("Form submission has been disabled for demo purposes");
+					});
+			});
+	</script>	
+</head>
+
+<body>
+
+<div id="main">
+	<div class="spc-container">
+	
+	<header>
+		<!--<img src="spcthumb2.png" style="display:block; margin: 0 auto; margin-bottom:20px;" />-->
+	
+	</header>		
+
+	<h1 style="color:#198bc7; text-transform:uppercase; margin:20px 0 40px 0;text-align:center; font-family:'Open Sans'; font-weight:normal;"> How much will FlexSave cost?</h1>
+
+	<form id="quoteform" class="fixed-total">
+<div style="width: 33%;float: left;">
+		<h4> Class A Name:</h4>
+		<input type="text" name="name"/> <br />
+		</div>	
+		
+<div style="width: 33%;float: left;">
+		<h4> Class B Name:</h4>
+		<input type="text" name="name"/> <br />
+		</div>	
+		
+<div style="width: 33%;float: left;">
+		<h4> Class C Name:</h4>
+		<input type="text" name="name"/> <br />
+		</div>			
+<div style="width: 33%;float: left;">
+		<h4> Amount: </h4> <input type="text" data-price="0" id="features" data-label="Class A Amount" />
+		<h4> Number of employees: </h4> <input type="text" data-price="0" data-label="Number of Class A Employees" id="features2" />
+		<h4> Total Benefit Limit: </h4> <input type="text" data-price="1" data-merge="features,features2" data-label="Class A Limit" disabled />		
+</div>
+<div style="width: 33%;float: left;">	
+		
+		<h4> Amount: </h4> <input type="text" data-price="0" id="features3" data-label="Class B Amount" />
+		<h4> Number of employees: </h4> <input type="text" data-price="0" data-label="Number of Class B Employees" id="features4" />
+		<h4> Total Benefit Limit: </h4> <input type="text" data-price="1" data-merge="features3,features4" data-label="Class B Limit" disabled />	
+</div>
+<div style="width: 33%;float: left;">		
+		<h4> Amount: </h4> <input type="text" data-price="0" id="features5" data-label="Class C Amount" />
+		<h4> Number of employees: </h4> <input type="text" data-price="0" data-label="Number of Class C Employees" id="features6" />
+		<h4> Total Benefit Limit: </h4> <input type="text" data-price="1" data-merge="features5,features6" data-label="Class C Limit" disabled />	
+		
+</div>			
+		
+
+	</form>
+		
+	</div>
+</div>
+</body>
+</html>
