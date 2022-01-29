@@ -21,15 +21,23 @@
 
 	var label100 = 'Cost at 100% Usage';
 	var total100 = 0;
+	var serv100 = 0;
+	var tax100 = 0;
 
 	var label75 = 'Cost at 75% Usage';
 	var total75 = 0;
+	var serv75 = 0;
+	var tax75 = 0;
 
 	var label50 = 'Cost at 50% Usage';
 	var total50 = 0;
+	var serv50 = 0;
+	var tax50 = 0;
 
 	var label25 = 'Cost at 25% Usage';
 	var total25 = 0;
+	var serv25 = 0;
+	var tax25 = 0;
 	
 	//Built in function that can be called outside of script to update total
 	this.updatetotal = function(){ setTimeout(function() {
@@ -297,29 +305,51 @@
 				
 		
 		child.each(function () {				
-				itemcost= 	$(this).attr("data-total") || 0;
-				total += parseFloat(itemcost);			
+			itemcost= 	$(this).attr("data-total") || 0;
+			total += parseFloat(itemcost);			
 		});	
 		
 	    if(totalmult) { total = total * parseFloat(totalmult); }		
 		
-		total100 = total + (total * serv) + ((total * serv) * tax);
-		total75 = (total * 0.75) + ((total * 0.75)* serv) + (((total * 0.75) * serv) * tax);
-		total50 = (total * 0.5) + ((total * 0.5)* serv) + (((total * 0.5) * serv) * tax);
-		total25 = (total * 0.25) + ((total * 0.25)* serv) + (((total * 0.25) * serv) * tax);
+		serv100 = (total * serv);
+		tax100 = ((total * serv) * tax)
+		total100 = total + serv100 + tax100;
 
-		console.log(total, (total * serv), ((total * serv) * tax), total100);
-		console.log((total * 0.75), ((total * 0.75) * serv), (((total * 0.75) * serv) * tax), total75);
-		console.log((total * 0.5), ((total * 0.5) * serv), (((total * 0.5) * serv) * tax), total50);
-		console.log((total * 0.25), ((total * 0.25) * serv), (((total * 0.25) * serv) * tax), total25);
+		serv75 = ((total * 0.75)* serv);
+		tax75 = (((total * 0.75) * serv) * tax);
+		total75 = (total * 0.75) + serv75 + tax75;
+
+		serv50 = ((total * 0.5)* serv);
+		tax50 = (((total * 0.5) * serv) * tax);
+		total50 = (total * 0.5) + serv50 + tax50;
+
+		serv25 = ((total * 0.25)* serv);
+		tax25 = (((total * 0.25) * serv) * tax);
+		total25 = (total * 0.25) + serv25 + tax25;
+
+		// console.log(total, (total * serv), ((total * serv) * tax), total100);
+		// console.log((total * 0.75), ((total * 0.75) * serv), (((total * 0.75) * serv) * tax), total75);
+		// console.log((total * 0.5), ((total * 0.5) * serv), (((total * 0.5) * serv) * tax), total50);
+		// console.log((total * 0.25), ((total * 0.25) * serv), (((total * 0.25) * serv) * tax), total25);
 
 		$(".simple-price-calc #simple-price-total label.hundred").html(settings.currency+$.number(total100,2));
+		$("#simple-price-total p:eq(0) span").html($.number(serv100,2));
+		$("#simple-price-total p:eq(1) span").html($.number(tax100,2));
+		
 		$(".simple-price-calc #simple-price-total label.three-quarter").html(settings.currency+$.number(total75,2));
+		$("#simple-price-total p:eq(2) span").html($.number(serv75,2));
+		$("#simple-price-total p:eq(3) span").html($.number(tax75,2));
+		
 		$(".simple-price-calc #simple-price-total label.half").html(settings.currency+$.number(total50,2));
+		$("#simple-price-total p:eq(4) span").html($.number(serv50,2));
+		$("#simple-price-total p:eq(5) span").html($.number(tax50,2));
+		
 		$(".simple-price-calc #simple-price-total label.quarter").html(settings.currency+$.number(total25,2));
+		$("#simple-price-total p:eq(6) span").html($.number(serv25,2));
+		$("#simple-price-total p:eq(7) span").html($.number(tax25,2));
 
 		setTimeout(function() {
-		UpdateDescriptions();
+			UpdateDescriptions();
 		}, 100);
 		
 		
@@ -438,30 +468,58 @@
 	 this.append(''+
 		'<div id="sidebar">'+
 	 		'<div id="simple-price-total">'+
-				'<h3 style="margin:0;">' + 
+
+				'<h3>' + 
 	 				label100 + 
 	 			' </h3>'+
 				'<label id="simple-price-total-num" class="hundred"> ' + 
 	 				settings.currency + $.number(total100,2) + 
-	 			'</label>'+
-				 '<h3 style="margin:0;">' + 
+	 			'</label><hr>'+
+				'<p>10% Service Fee: ' + 
+	 				settings.currency + '<span>'+$.number(serv100,2)+'</span>'+
+	 			'</p>'+
+				 '<p>Tax Fee: ' + 
+	 				settings.currency + '<span>'+$.number(tax100,2)+'</span>'+
+	 			'</p>'+
+
+				'<h3>' + 
 	 				label75 + 
 	 			' </h3>'+
 				'<label id="simple-price-total-num" class="three-quarter"> ' + 
 	 				settings.currency + $.number(total75,2) + 
-	 			'</label>'+
-				 '<h3 style="margin:0;">' + 
+	 			'</label><hr>'+
+				'<p>10% Service Fee: ' + 
+					settings.currency + '<span>'+$.number(serv75,2)+'</span>'+
+				'</p>'+
+				'<p>Tax Fee: ' + 
+					settings.currency + '<span>'+$.number(tax75,2)+'</span>'+
+				'</p>'+
+
+				'<h3>' + 
 	 				label50 + 
-	 			' </h3>'+
+	 			'</h3>'+
 				'<label id="simple-price-total-num" class="half"> ' + 
 	 				settings.currency + $.number(total50,2) + 
-	 			'</label>'+
-				 '<h3 style="margin:0;">' + 
+	 			'</label><hr>'+
+				'<p>10% Service Fee: ' + 
+					settings.currency + '<span>'+$.number(serv50,2)+'</span>'+
+				'</p>'+
+				'<p>Tax Fee: ' + 
+					settings.currency + '<span>'+$.number(tax50,2)+'</span>'+
+				'</p>'+
+
+				'<h3>' + 
 	 				label25 + 
 	 			' </h3>'+
 				'<label id="simple-price-total-num" class="quarter"> ' + 
 	 				settings.currency + $.number(total25,2) + 
-	 			'</label>'+
+	 			'</label><hr>'+
+				 '<p>10% Service Fee: ' + 
+					settings.currency + '<span>'+$.number(serv25,2)+'</span>'+
+				'</p>'+
+				'<p>Tax Fee: ' + 
+					settings.currency + '<span>'+$.number(tax25,2)+'</span>'+
+				'</p>'+
 			'</div>'+
 			//'<div id="simple-price-details"></div>'+
 		'</div>');	

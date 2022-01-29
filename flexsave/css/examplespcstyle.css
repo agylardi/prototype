@@ -1,16 +1,20 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans);
 
-body {background:#fafafa;}
+body {background:#fafafa; font-family:'Open Sans', Arial, Helvetica, sans-serif;}
 #main{background:white; margin:40px auto; width:800px; padding:10px; min-height:600px; border:1px solid #eee;}
 .spc-container{padding:10px 25px;}
 #nav {list-style-type:none; display:inline-block; width:100%; text-align:center; padding-left:0;}
 #nav li {display:inline; margin-right:30px;}
 #nav li a {text-decoration:none; color:#2c3e50; text-transform:uppercase; font-size:13px; font-family:"Open Sans";}
-.simple-price-calc {font-size: 14px; font-family:'Open Sans';}
+.simple-price-calc {font-size: 14px; }
 .simple-price-calc button {display:inline-block; margin:20px 0; border:1px solid #ddd; padding:7px 10px; border-radius:5px; background:#198bc7; color:white;}
 #simple-price-total {margin-top:15px;}
-#simple-price-total label{color:green; font-weight:bold; font-size:20px; } 
+#simple-price-total label{color:green; font-weight:bold; font-size:20px; display: block; margin: 5px 0;} 
 .fixed-total #sidebar {position:fixed; left:81%; top:6%; padding:20px; background:white; min-width:15%; border:1px solid #eee;}
+
+#simple-price-total p:nth-of-type(even){ margin: 0 auto 1em; }
+#simple-price-total p:nth-of-type(odd){ margin: 0em auto 0.1em; }
+#simple-price-total h3{ margin: 1.4em 0 0 0 !important; }
 
 /* Responsive Code for sidebar */
 
