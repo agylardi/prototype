@@ -10,7 +10,7 @@
 		currency:"$"		
 		}, options );
 
-// Initialize Variables
+	// Initialize Variables
 
 	var total=0;
 	var child=this.find('*'); 
@@ -19,30 +19,32 @@
 	var tax = 0.05;
 	var serv = 0.1;
 
-	var label100 = 'Cost at 100% Usage';
+	var label100 = 'At 100% Usage';
 	var total100 = 0;
 	var serv100 = 0;
 	var tax100 = 0;
 
-	var label75 = 'Cost at 75% Usage';
+	var label75 = 'At 75% Usage';
 	var total75 = 0;
 	var serv75 = 0;
 	var tax75 = 0;
 
-	var label50 = 'Cost at 50% Usage';
+	var label50 = 'At 50% Usage';
 	var total50 = 0;
 	var serv50 = 0;
 	var tax50 = 0;
 
-	var label25 = 'Cost at 25% Usage';
+	var label25 = 'At 25% Usage';
 	var total25 = 0;
 	var serv25 = 0;
 	var tax25 = 0;
+
+	var add_in = false;
 	
 	//Built in function that can be called outside of script to update total
 	this.updatetotal = function(){ setTimeout(function() {
-			UpdateTotal();
-		}, 100);};
+		UpdateTotal();
+	}, 100);};
 	
 	
 	this.addClass("simple-price-calc");	
@@ -73,13 +75,18 @@
 	});
 	
 	//Update total when user inputs or changes data from input box
-	
 	$(".simple-price-calc input[type=text]").change( function() {
-	
 		if($(this).attr('data-price') || $(this).attr('data-mult')) {
 	
 		var userinput= $(this).val();
-		if($.isNumeric(userinput)) { var usernumber = parseFloat(userinput);} else if(userinput != '') { alert('Please enter a valid number'); var usernumber = 1; } else { usernumber = 1; }
+		if($.isNumeric(userinput)) { 
+			var usernumber = parseFloat(userinput);
+		} else if(userinput != '') { 
+			alert('Please enter a valid number'); 
+			var usernumber = 1; 
+		} else { 
+			usernumber = 1; 
+		}
 		var multiple=parseFloat($(this).data('mult')) || 0;
 		var pricecost=parseFloat($(this).data('price')) || 0;
 		var percentage=$(this).data('prcnt') || 1;
@@ -168,7 +175,14 @@
 		if($(this).attr('data-price') || $(this).attr('data-mult')) {
 	
 			var userinput= $(this).val();
-			if($.isNumeric(userinput)) { var usernumber = parseFloat(userinput);} else if(userinput != '') { alert('Please enter a valid number'); var usernumber = 1;} else { usernumber = 1; }
+			if($.isNumeric(userinput)) { 
+				var usernumber = parseFloat(userinput);
+			} else if(userinput != '') { 
+				alert('Please enter a valid number'); 
+				var usernumber = 1;
+			} else {
+				usernumber = 1; 
+			}
 			var multiple=parseFloat($(this).data('mult')) || 0;
 			var pricecost=parseFloat($(this).data('price')) || 0;
 			var percentage=$(this).data('prcnt') || 1;
@@ -204,20 +218,20 @@
 		});
 	
 		
-			$(".simple-price-calc input[type=radio]").each( function() {
-				if($(this).is(':checked')) {
-					var radioval= $(this).val();
-					if($.isNumeric(radioval)) {				
-						$(this).attr('data-total', radioval);
-					}
-					else {
-						$(this).attr('data-total', 0);
-					}
-				}					
+		$(".simple-price-calc input[type=radio]").each( function() {
+			if($(this).is(':checked')) {
+				var radioval= $(this).val();
+				if($.isNumeric(radioval)) {				
+					$(this).attr('data-total', radioval);
+				}
 				else {
 					$(this).attr('data-total', 0);
-				}		
-			});
+				}
+			}					
+			else {
+				$(this).attr('data-total', 0);
+			}		
+		});
 
 		$(".simple-price-calc input[type=hidden]").each( function() {
 		
@@ -233,7 +247,7 @@
 			
 		});			
 			
-			UpdateTotal();
+		UpdateTotal();
 	
 	}
 	
@@ -260,12 +274,15 @@
 				else if (inputid.prop('nodeName') == "SELECT")
 					arraytotals*=$("#"+value).find(':selected').val();
 				});
-			var idtotal=arraytotals;
+			var idtotal = arraytotals;
 			if($.isNumeric(idtotal)) {					
-				var pricecost=parseFloat($(this).data('price')) || 0;
 				$(this).val(idtotal);
+				var pricecost=parseFloat($(this).data('price')) || 0;
 				var updpricecost= pricecost * parseFloat($(this).val());
-				$(this).attr('data-total',updpricecost);						
+				$(this).attr('data-total', updpricecost);						
+			}
+			if($.isNumeric(idtotal)) {
+				$(this).val($.number(idtotal,2));
 			}
 		});				
 		
@@ -313,19 +330,23 @@
 		
 		serv100 = (total * serv);
 		tax100 = ((total * serv) * tax)
-		total100 = total + serv100 + tax100;
+		// total100 = total + serv100 + tax100;
+		total100 = total;
 
 		serv75 = ((total * 0.75)* serv);
 		tax75 = (((total * 0.75) * serv) * tax);
-		total75 = (total * 0.75) + serv75 + tax75;
+		// total75 = (total * 0.75) + serv75 + tax75;
+		total75 = (total * 0.75);
 
 		serv50 = ((total * 0.5)* serv);
 		tax50 = (((total * 0.5) * serv) * tax);
-		total50 = (total * 0.5) + serv50 + tax50;
+		// total50 = (total * 0.5) + serv50 + tax50;
+		total50 = (total * 0.5);
 
 		serv25 = ((total * 0.25)* serv);
 		tax25 = (((total * 0.25) * serv) * tax);
-		total25 = (total * 0.25) + serv25 + tax25;
+		// total25 = (total * 0.25) + serv25 + tax25;
+		total25 = (total * 0.25);
 
 		// console.log(total, (total * serv), ((total * serv) * tax), total100);
 		// console.log((total * 0.75), ((total * 0.75) * serv), (((total * 0.75) * serv) * tax), total75);
@@ -463,18 +484,18 @@
 	}// End of UpdateDescriptions()
 	
 	//this.append('<div id="sidebar"><div id="simple-price-total"><h3 style="margin:0;">' + settings.totallabel + ' </h3><label id="simple-price-total-num"> ' + settings.currency + $.number(total,2) + ' </label></div> <div id="simple-price-details"></div></div>');	
-
 	
 	 this.append(''+
 		'<div id="sidebar">'+
 	 		'<div id="simple-price-total">'+
-
+				'<h2>Base FlexSave Costs</h2>'+
+				'<hr>'+
 				'<h3>' + 
 	 				label100 + 
 	 			' </h3>'+
 				'<label id="simple-price-total-num" class="hundred"> ' + 
 	 				settings.currency + $.number(total100,2) + 
-	 			'</label><hr>'+
+	 			'</label>'+
 				'<p>10% Service Fee: ' + 
 	 				settings.currency + '<span>'+$.number(serv100,2)+'</span>'+
 	 			'</p>'+
@@ -487,7 +508,7 @@
 	 			' </h3>'+
 				'<label id="simple-price-total-num" class="three-quarter"> ' + 
 	 				settings.currency + $.number(total75,2) + 
-	 			'</label><hr>'+
+	 			'</label>'+
 				'<p>10% Service Fee: ' + 
 					settings.currency + '<span>'+$.number(serv75,2)+'</span>'+
 				'</p>'+
@@ -500,7 +521,7 @@
 	 			'</h3>'+
 				'<label id="simple-price-total-num" class="half"> ' + 
 	 				settings.currency + $.number(total50,2) + 
-	 			'</label><hr>'+
+	 			'</label>'+
 				'<p>10% Service Fee: ' + 
 					settings.currency + '<span>'+$.number(serv50,2)+'</span>'+
 				'</p>'+
@@ -513,7 +534,7 @@
 	 			' </h3>'+
 				'<label id="simple-price-total-num" class="quarter"> ' + 
 	 				settings.currency + $.number(total25,2) + 
-	 			'</label><hr>'+
+	 			'</label>'+
 				 '<p>10% Service Fee: ' + 
 					settings.currency + '<span>'+$.number(serv25,2)+'</span>'+
 				'</p>'+
@@ -521,6 +542,10 @@
 					settings.currency + '<span>'+$.number(tax25,2)+'</span>'+
 				'</p>'+
 			'</div>'+
+			// '<div id="add-ins">'+
+			// 	'<h2>In Province and Travel Additional Coverage</h2>'+
+			// 	'<hr>'+
+			// '</div>'+
 			//'<div id="simple-price-details"></div>'+
 		'</div>');	
 	

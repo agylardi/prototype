@@ -121,44 +121,50 @@
 	function InitialUpdate() {
 	
 		formdropdowns.each( function() {
-		    if($(this).attr('multiple')) {
-			    var selectedOptions = $(this).find(':selected');
-			    var selectedOptionstotal=0;
-			    if (selectedOptions != ''){
-					selectedOptions.each( function() {
-						selectedOptionstotal += $(this).data('price');				
-					});
-				}
-				$(this).attr('data-total',selectedOptionstotal);
+		 if($(this).attr('multiple')) {
+			var selectedOptions = $(this).find(':selected');
+			var selectedOptionstotal=0;
+			if (selectedOptions != '')
+			{
+				selectedOptions.each( function() {
+					selectedOptionstotal += $(this).data('price');				
+				});
 			}
-		    else{		
-				var selectedOption = $(this).find(':selected');
-				$(this).attr('data-total',selectedOption.data('price')) ;					
-			}		
+			$(this).attr('data-total',selectedOptionstotal);
+		 }
+		else{		
+		var selectedOption = $(this).find(':selected');
+		$(this).attr('data-total',selectedOption.data('price')) ;					
+		 }		
 		});
 	
      	//Update total when user inputs or changes data from input box
 	
 		$(".simple-price-calc input[type=text]").each( function() {
-			if($(this).attr('data-price') || $(this).attr('data-mult')) {
-				var userinput= $(this).val();
-				if($.isNumeric(userinput)) { var usernumber = parseFloat(userinput);} else if(userinput != '') { alert('Please enter a valid number'); var usernumber = 1;} else { usernumber = 1; }
-				var multiple=parseFloat($(this).data('mult')) || 0;
-				var pricecost=parseFloat($(this).data('price')) || 0;
-				var percentage=$(this).data('prcnt') || 1;
 		
-				if($.isNumeric(pricecost) && pricecost !=0) {
-					var updpricecost=pricecost * usernumber;
-					$(this).attr('data-total', updpricecost);
-				}
-
-				if(multiple && multiple !=0) {    	
-					$("#simple-price-total label").attr('data-mult',usernumber);
-				}			
+		if($(this).attr('data-price') || $(this).attr('data-mult')) {
+	
+			var userinput= $(this).val();
+			if($.isNumeric(userinput)) { var usernumber = parseFloat(userinput);} else if(userinput != '') { alert('Please enter a valid number'); var usernumber = 1;} else { usernumber = 1; }
+			var multiple=parseFloat($(this).data('mult')) || 0;
+			var pricecost=parseFloat($(this).data('price')) || 0;
+			var percentage=$(this).data('prcnt') || 1;
+	
+			if($.isNumeric(pricecost) && pricecost !=0) {
+				var updpricecost=pricecost * usernumber;
+				$(this).attr('data-total', updpricecost);
 			}
+	
+			if(multiple && multiple !=0) {    	
+				$("#simple-price-total label").attr('data-mult',usernumber);
+			}			
+			
+			}
+			
 		});
 	
 		$(".simple-price-calc input[type=checkbox]").each( function() {
+	
 			if($(this).is(':checked')) {
 				var checkboxval= $(this).val();
 				if($.isNumeric(checkboxval)) {				
@@ -171,34 +177,40 @@
 			else {
 				$(this).attr('data-total', 0);
 			}					
+	
 		});
 	
 		
-		$(".simple-price-calc input[type=radio]").each( function() {
-			if($(this).is(':checked')) {
-				var radioval= $(this).val();
-				if($.isNumeric(radioval)) {				
-					$(this).attr('data-total', radioval);
-				}
+			$(".simple-price-calc input[type=radio]").each( function() {
+				if($(this).is(':checked')) {
+					var radioval= $(this).val();
+					if($.isNumeric(radioval)) {				
+						$(this).attr('data-total', radioval);
+					}
+					else {
+						$(this).attr('data-total', 0);
+					}
+				}					
 				else {
 					$(this).attr('data-total', 0);
-				}
-			}					
-			else {
-				$(this).attr('data-total', 0);
-			}		
-		});
+				}		
+			});
 
 		$(".simple-price-calc input[type=hidden]").each( function() {
+		
 			if($(this).attr('data-price')) {
-				var hiddeninputval= $(this).attr('data-price');																	
+	
+				var hiddeninputval= $(this).attr('data-price');
+																					
 				if($.isNumeric(hiddeninputval) && hiddeninputval !=0) {				
 					$(this).attr('data-total', hiddeninputval);
 				}				
+			
 			}
+			
 		});			
 			
-		UpdateTotal();
+			UpdateTotal();
 	
 	}
 	
@@ -278,7 +290,7 @@
 		$(".simple-price-calc #simple-price-total label").html(settings.currency+$.number(total,2));		
 		
 		setTimeout(function() {
-			UpdateDescriptions();
+		UpdateDescriptions();
 		}, 100);
 		
 		
@@ -286,7 +298,7 @@
 	
 	//Update Field Labels and Pricing	
 		
-	function UpdateDescriptions() {				
+		function UpdateDescriptions() {				
 		
 		var selectedformvalues= [];
 		var currtag='';
@@ -389,15 +401,11 @@
 				});
 			}
 		
-	}// End of UpdateDescriptions()
-     	
-	this.append('<div id="sidebar">'+
-					'<div id="simple-price-total">'+
-						'<h3 style="margin:0;">' + settings.totallabel + ' </h3>'+
-						'<label id="simple-price-total-num"> ' + settings.currency + $.number(total,2) + ' </label>'+
-					'</div>'+
-					'<div id="simple-price-details"></div>'+
-				'</div>');	
+		}// End of UpdateDescriptions()
+     
+	 
+		
+	 this.append('<div id="sidebar"><div id="simple-price-total"><h3 style="margin:0;">' + settings.totallabel + ' </h3><label id="simple-price-total-num"> ' + settings.currency + $.number(total,2) + ' </label></div> <div id="simple-price-details"></div></div>');	
 	 
 	return this;
    

@@ -1,20 +1,162 @@
 @import url(http://fonts.googleapis.com/css?family=Open+Sans);
 
-body {background:#fafafa; font-family:'Open Sans', Arial, Helvetica, sans-serif;}
-#main{background:white; margin:40px auto; width:800px; padding:10px; min-height:600px; border:1px solid #eee;}
+body {background:#ffffff; font-family:'Open Sans', Arial, Helvetica, sans-serif;}
+#main{background:white; margin:5px auto; width:800px; padding:10px; min-height:600px; border:1px solid #fff;}
 .spc-container{padding:10px 25px;}
 #nav {list-style-type:none; display:inline-block; width:100%; text-align:center; padding-left:0;}
 #nav li {display:inline; margin-right:30px;}
 #nav li a {text-decoration:none; color:#2c3e50; text-transform:uppercase; font-size:13px; font-family:"Open Sans";}
-.simple-price-calc {font-size: 14px; }
-.simple-price-calc button {display:inline-block; margin:20px 0; border:1px solid #ddd; padding:7px 10px; border-radius:5px; background:#198bc7; color:white;}
-#simple-price-total {margin-top:15px;}
-#simple-price-total label{color:green; font-weight:bold; font-size:20px; display: block; margin: 5px 0;} 
-.fixed-total #sidebar {position:fixed; left:81%; top:6%; padding:20px; background:white; min-width:15%; border:1px solid #eee;}
+.flexsave-calc {font-size: 14px; }
+.flexsave-calc button {display:inline-block; margin:20px 0; border:1px solid #ddd; padding:7px 10px; border-radius:5px; background:#198bc7; color:white;}
 
-#simple-price-total p:nth-of-type(even){ margin: 0 auto 1em; }
-#simple-price-total p:nth-of-type(odd){ margin: 0em auto 0.1em; }
-#simple-price-total h3{ margin: 1.4em 0 0 0 !important; }
+.fixed-total .flexsave-detail {margin-top:10px;}
+
+#flexsave-base-total, #flexsave-costs {
+    margin: 1em 0 1.5em;
+}
+#flexsave-base-total label, #flexsave-costs label{
+    color: green;
+    text-align:left;
+    font-weight: bold;
+    font-size: 20px;
+    display: inline-block;
+     margin: 0 0 0; 
+    width: 17%;
+} 
+
+
+#flexsave-base-total p:nth-of-type(even),
+#flexsave-costs p:nth-of-type(even){
+    width: 20%;
+    margin: 0 0 0 0;
+    text-align: right;
+    display: inline-block;
+}
+
+#flexsave-base-total p:nth-of-type(odd),
+#flexsave-costs p:nth-of-type(odd){ 
+    width: 30%;
+    margin: 0 0 0 0;
+    text-align: right;
+    display: inline-block;
+}
+
+#flexsave-costs span {
+    font-size: 0.9rem;
+}
+
+#flexsave-costs h2 {
+    margin: 1em 0 0;
+    font-size: 1.3rem;
+}
+
+#flexsave-costs h3 {
+    width: 45%;
+    font-size: 1.2rem;
+    display: inline-block;
+    margin: 0 0 0 0; 
+    padding-bottom:10px; 
+}
+
+#flexsave-base-total h3{     
+    width: 33%;
+    font-size: 1.3em;
+    display: inline-block;
+    margin: 0 0 0 0; 
+    padding-bottom:10px; 
+}
+
+#flexsave-addins-total h3 {
+    width: 40%;
+    font-size: 1.4em;
+    display: inline-block;
+    margin: 0 0 0 0; 
+    padding-bottom:10px; 
+}
+
+#flexsave-addins-total > h3 {
+    width: 76%;
+    text-align: right;
+}
+
+#flexsave-addins-total span {
+    width: 30%;
+    font-style: italic;
+    text-align: center;
+    display: inline-block;
+}
+
+#flexsave-addins-total label {
+    color: green;
+    text-align: right;
+    font-weight: bold;
+    font-size: 20px;
+    display: inline-block;
+    margin: 0 0 0; 
+    width: 30%;
+}
+
+#flexsave-addins-total > label {
+    width: 24%;
+    text-align: right;
+}
+
+.flexsave-detail h2{
+    margin: 1em 0 0;
+}
+
+#flexsave-base h4, #flexsave-addin h4 {
+    margin: 1em 0 0.5em;
+    font-weight: lighter;
+}
+
+#flexsave-base input, #flexsave-addin input {
+    margin: 0em 0 0.5em;
+}
+
+#flexsave-base > div h4:nth-of-type(4) {
+    font-weight: bolder;
+}
+
+#flexsave-base > div input:nth-of-type(4) {
+    font-weight: bolder;
+    color: green;
+}
+
+#add-in-check {
+    margin-bottom: 1.3em;
+}
+
+.form-column {
+    width: 33%;
+    float: left;
+    padding-bottom:1.5em;
+    margin-bottom: 1em;
+}
+
+input#add-in:hover, label[for="add-in"]:hover {
+    cursor: pointer;
+} 
+
+.hide {
+    display: none;
+}
+
+#flexsave-addin > div:nth-child(7) > h4 {
+    font-weight: bolder !important;
+}
+
+#flexsave-addin > div:nth-child(7) > input {
+    font-weight: bolder;
+    color: green;
+}
+
+.addins-table  {border-collapse:collapse;border-color:#ccc;border-spacing:0;}
+.addins-table  td{background-color:#fff;border-color:#ccc;border-style:solid;border-width:1px;color:#333;
+  font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:10px 5px;word-break:normal;}
+.addins-table  th{background-color:#f0f0f0;border-color:#ccc;border-style:solid;border-width:1px;color:#333;
+  font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.addins-table  .addins-cell {border-color:#000000;text-align:left;vertical-align:top}
 
 /* Responsive Code for sidebar */
 
@@ -22,6 +164,33 @@ body {background:#fafafa; font-family:'Open Sans', Arial, Helvetica, sans-serif;
 and (min-width : 220px) 
 and (max-width : 800px) {
 #main { width:100%; }
-.fixed-total #sidebar {position:relative; border:none; left:0; top:0;}
+.fixed-total .flexsave-detail {position:relative; border:none; left:0; top:0;}
 }
+
+    @media print {
+            .noprint {
+                  display: none;
+               }
+             .body{background-color:#ffffff;}
+               
+               
+                 ::-webkit-input-placeholder { /* WebKit browsers */
+      color: transparent;
+  }
+  :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+      color: transparent;
+  }
+  ::-moz-placeholder { /* Mozilla Firefox 19+ */
+      color: transparent;
+  }
+  :-ms-input-placeholder { /* Internet Explorer 10+ */
+      color: transparent;
+  }
+               
+               
+               
+            }
+
+
+
 

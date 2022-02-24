@@ -294,7 +294,6 @@
 				if(!$.isNumeric(currmultiple))
 					currmultiple = 0;				
 				else if(currmultiple == 0)
-
 					currmultiple = -1;
 				else
 					currmultiple -= 1;
@@ -314,19 +313,19 @@
 		
 		serv100 = (total * serv);
 		tax100 = ((total * serv) * tax)
-		total100 = total ;
+		total100 = total + serv100 + tax100;
 
 		serv75 = ((total * 0.75)* serv);
 		tax75 = (((total * 0.75) * serv) * tax);
-		total75 = (total * 0.75);
+		total75 = (total * 0.75) + serv75 + tax75;
 
 		serv50 = ((total * 0.5)* serv);
 		tax50 = (((total * 0.5) * serv) * tax);
-		total50 = (total * 0.5);
+		total50 = (total * 0.5) + serv50 + tax50;
 
 		serv25 = ((total * 0.25)* serv);
 		tax25 = (((total * 0.25) * serv) * tax);
-		total25 = (total * 0.25);
+		total25 = (total * 0.25) + serv25 + tax25;
 
 		// console.log(total, (total * serv), ((total * serv) * tax), total100);
 		// console.log((total * 0.75), ((total * 0.75) * serv), (((total * 0.75) * serv) * tax), total75);
