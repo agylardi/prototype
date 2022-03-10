@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+<head>
+	<link rel="stylesheet" href="css/examplespcstyle.css" type="text/css"  />
+
+	<script src="js/jquery-3.3.1.min.js"></script> 
+	<script src="js/jquery.number.min.js"></script>	
+	<script src="js/flexsavecalc-dev.js"></script> 		
+	<script>
+	$(document).ready( function ($) {
+		var flexSave = $("#flexsave-calculator").FlexSaveCalc();
+		cost100 = $('#flexsave-costs h3:eq(0)').text();
+		cost75 = $('#flexsave-costs h3:eq(1)').text();
+		cost50 = $('#flexsave-costs h3:eq(2)').text();
+		cost25 = $('#flexsave-costs h3:eq(3)').text();
+
+		$('input#add-in').change( function(){
+			if (this.checked) {
+				$('#flexsave-costs h2').text('Total FlexSave Costs and Stop Loss');
+				$('#flexsave-costs h3:eq(0)').text(cost100+"Stop Loss");
+				$('#flexsave-costs h3:eq(1)').text(cost75+"Stop Loss");
+				$('#flexsave-costs h3:eq(2)').text(cost50+"Stop Loss");
+				$('#flexsave-costs h3:eq(3)').text(cost25+"Stop Loss");			
+				$('#flexsave-addin').slideToggle("slow");
+				$("html, body").stop().animate({ 
+					scrollTop: $('#flexsave-addins-total h2').offset().top
+				});
+			 } else {
+				$('#flexsave-addin .form-column input').val("0");
+				flexSave.addinUpdateTotal();
+				$('#flexsave-costs h2').text('Total FlexSave Costs');
+				$('#flexsave-costs h3:eq(0)').text(cost100);
+				$('#flexsave-costs h3:eq(1)').text(cost75);
+				$('#flexsave-costs h3:eq(2)').text(cost50);
+				$('#flexsave-costs h3:eq(3)').text(cost25);
+				$('#flexsave-addin').slideToggle("slow");
+			}
+		});
+	});
+	</script>	
+</head>
+
+<body>
+
+<div id="main">
+	<div class="spc-container">
+		<header>
+			
+		</header>		
+
+		<h1 style="color:#263748; margin:20px 0 40px 0;text-align:center;"> How much will FlexSave cost?</h1><p style="text-align:center;font-size:20px">Only pay for what you use. Paid claims may be 100% tax-deductible to your business and employees may receive tax-free benefits.</p>
+
+		<div id="flexsave-calculator">
+			<form id="flexsave-base" class="fixed-total">
+				<div class="form-column">
+					<h4> Class A Name:</h4>
+					<input type="text" name="class-A" value="Management"/> <br />
+					<h4> Class A benefit limit: </h4> <input type="text" data-price="0" id="class-A-limit" value="0" />
+					<h4> Number of employees: </h4> <input type="text" data-price="0" id="class-A-num" value="0" />
+					<h4> Total Benefit Limit: </h4> <input type="text" data-price="1" id="class-A-total"  data-merge="class-A-limit,class-A-num" disabled />		
+				</div>
+				<div class="form-column">	
+					<h4> Class B Name:</h4>
+					<input type="text" name="class-B" value="All Employees"/> <br />
+					<h4> Class B benefit limit: </h4> <input type="text" data-price="0" id="class-B-limit" value="0" />
+					<h4> Number of employees: </h4> <input type="text" data-price="0" id="class-B-num" value="0" />
+					<h4> Total Benefit Limit: </h4> <input type="text" data-price="1" id="class-B-total" data-merge="class-B-limit,class-B-num" disabled />	
+				</div>
+				<div class="form-column">	
+					<h4> Class C Name:</h4>
+					<input type="text" name="class-C" value="Part-Time"/> <br />
+					<h4> Class C benefit limit: </h4> <input type="text" data-price="0" id="class-C-limit" value="0" />
+					<h4> Number of employees: </h4> <input type="text" data-price="0"  id="class-C-num" value="0" />
+					<h4> Total Benefit Limit: </h4> <input type="text" data-price="1" id="c" data-merge="class-C-limit,class-C-num" disabled />	
+				</div>
+			</form>
+			<div id="add-in-check">
+				<input type="checkbox" id="add-in" name="add-in">
+				<label for="add-in">Add In-Province and Travel Coverage (under 70)</label>
+			</div> 
+			<form id="flexsave-addin" class="fixed-total hide">
+				<div class="form-column">	
+					<h4>Number Single Coverage</h4> <input type="text" data-price="0" id="addin-single" value="0" />
+				</div>
+				<div class="form-column">
+					<h4>Number Couple Coverage</h4> <input type="text" data-price="0" id="addin-couple" value="0" />	
+					<!-- <h4> Annual Single Rates</h4> <input type="text" data-price="0" id="coverageRate1" value="137.4" disabled/>
+					<h4> Annual Couple Rates</h4> <input type="text" data-price="0" id="coverageRate2" value="262.8" disabled/>
+					<h4> Annual Family Rates</h4> <input type="text" data-price="0" id="coverageRate3" value="334.8" disabled/> -->
+				</div>
+				<div class="form-column">
+					<h4>Number Family Coverage</h4> <input type="text" data-price="0" id="addin-married" value="0" />	
+					<!-- <h4> Total Single Coverage</h4> <input type="text" data-price="0" id="annualCoverage1" data-merge="coverage1,coverageRate1" disabled/>
+					<h4> Total Couple Coverage</h4> <input type="text" data-price="0" id="annualCoverage2" data-merge="coverage2,coverageRate2" disabled/>
+					<h4> Total Family Coverage</h4> <input type="text" data-price="0" id="annualCoverage3" data-merge="coverage3,coverageRate3" disabled/> -->
+					  <!-- <h4> Total Coverage</h4>
+					  <input type="text" data-price="1" id="totalAddinCoverage" data-merge="annualCoverage1,annualCoverage2,annualCoverage3" disabled/> -->
+				</div>
+			</form>
+			<!-- <div class="flexsave-detail">
+				<section id="flexsave-costs">	
+				</div>
+			</div> -->
+			
+		</div>
+
+			
+		
+	</div>	
+</div>	
+</body>
+</html>
