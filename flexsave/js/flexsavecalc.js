@@ -958,7 +958,7 @@
                   '<td class="tableCell"><label class="hundred">'+
                       settings.currency + $.number(baseTotal100,2)+
                   '</label></td>'+
-                  '<td class="tableCell" rowspan="4"><label class="addin-total">'+
+                  '<td class="tableCell"><label class="addin-total">'+
                       settings.currency + $.number(addinTotal, 2)+
                   '</label></td>'+
                   '<td class="tableCell"><label class="hundred">'+
@@ -970,6 +970,9 @@
                   '<td class="tableCell"><label class="three-quarter">'+
                       settings.currency + $.number(baseTotal75,2)+
                   '</label></td>'+
+                  '<td class="tableCell"><label class="addin-total">'+
+                      settings.currency + $.number(addinTotal, 2)+
+                  '</label></td>'+
                   '<td class="tableCell"><label class="three-quarter">'+
                       settings.currency + '<span>'+$.number(costTotal75,2)+'</span>'+
                   '</label></td>'+
@@ -979,6 +982,9 @@
                   '<td class="tableCell"><label class="half">'+
                       settings.currency + $.number(baseTotal50,2)+
                   '</label></td>'+
+                  '<td class="tableCell"><label class="addin-total">'+
+                      settings.currency + $.number(addinTotal, 2)+
+                  '</label></td>'+
                   '<td class="tableCell"><label class="half">'+
                       settings.currency + '<span>'+$.number(costTotal50,2)+'</span>'+
                   '</label></td>'+
@@ -987,6 +993,9 @@
                   '<td class="tableCell"><h3>'+settings.baseLabel25+'</h3></td>'+
                   '<td class="tableCell"><label class="quarter">'+
                       settings.currency + $.number(baseTotal25,2)+
+                  '</label></td>'+
+                  '<td class="tableCell"><label class="addin-total">'+
+                      settings.currency + $.number(addinTotal, 2)+
                   '</label></td>'+
                   '<td class="tableCell"><label class="quarter">'+
                       settings.currency + '<span>'+$.number(costTotal25,2)+'</span>'+
