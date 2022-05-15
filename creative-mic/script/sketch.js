@@ -38,7 +38,7 @@ function setup() {
   print(track);
   alphaSlider = createSlider(0,255,12);
   alphaSlider.position(width/2-50,20);
-  timer = 3;
+  timer = 60;
 }
 
 function handleTrackButtonClick(trackObject) {
