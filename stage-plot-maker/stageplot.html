@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stage Plot Builder</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      padding: 20px;
+      margin: 0;
+    }
+    #container {
+      display: flex;
+      gap: 20px;
+    }
+    #image-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      height: 65vh; /* Set a fixed height for vertical scrolling */
+      overflow-y: auto; /* Enable vertical scrolling */
+      padding: 10px;
+      border: 1px solid #ccc; /* Optional: for visual boundary */
+    }
+
+    /* Webkit-based browsers (Chrome, Safari, Edge) */
+    #image-list {
+      scrollbar-width: thin; /* for Firefox */
+      scrollbar-color: #888 #e0e0e0; /* for Firefox */
+    }
+
+    #image-list::-webkit-scrollbar {
+      width: 8px; /* Adjust scrollbar width */
+    }
+
+    #image-list::-webkit-scrollbar-track {
+      background-color: #e0e0e0; /* Track color */
+      border-radius: 10px; /* Rounded edges */
+    }
+
+    #image-list::-webkit-scrollbar-thumb {
+      background-color: #888; /* Scrollbar color */
+      border-radius: 10px; /* Rounded edges */
+      border: 2px solid #e0e0e0; /* Adds padding around thumb */
+    }
+
+    #image-list::-webkit-scrollbar-thumb:hover {
+      background-color: #555; /* Darker color on hover */
+    }
+
+    /* Firefox-specific styling */
+    #image-list {
+      scrollbar-width: thin; /* Makes the scrollbar thinner */
+      scrollbar-color: #888 #e0e0e0; /* Thumb and track color */
+    }
+
+
+    .draggable-image {
+      max-width: 100px;
+      min-width: 50px;
+      cursor: grab;
+    }
+    #canvas-container {
+      position: relative;
+      border: 1px solid black;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 10px 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    #canvas {
+      width: 100%;
+      height: 100%;
+    }
+    .resizable-box {
+      position: absolute;
+      border: 1px dashed gray;
+      display: inline-block;
+    }
+   .text-label {
+      position: absolute;
+      font-family: Arial, sans-serif;
+      color: black;
+      padding: 5px;
+      cursor: grab;
+      text-align: center;
+      overflow-wrap: break-word;
+      resize: none;
+      outline: none;
+      border: 1px dashed gray;
+      width: 100px;
+      min-height: 40px;
+      background: transparent;
+      font-size: 16px;
+    }
+    .text-label.placeholder {
+      color: gray;
+    }
+    .selected {
+      border: 2px solid blue;
+    }
+    #text-field {
+      position: absolute;
+      top: 10px;
+      width: 50%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 24px;
+      font-family: Arial, sans-serif;
+      font-weight: bold;
+      text-align: center;
+      border: none;
+      outline: none;
+    }
+    .button-container {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div id="image-list">
+      <button onclick="addTextLabel()">Add Text Label</button>
+      <img src="Images/image1.png" alt="Guitar" class="draggable-image" draggable="true" id="image1">
+      <img src="Images/image1B.png" alt="Bass" class="draggable-image" draggable="true" id="image1b">
+	    <img src="Images/image2.png" alt="Drums" class="draggable-image" draggable="true" id="image2">
+      <img src="Images/image3.png" alt="Mic Stand" class="draggable-image" draggable="true" id="image3">
+      <img src="Images/image4.png" alt="Mic" class="draggable-image" draggable="true" id="image4">
+      <img src="Images/image5.png" alt="Keys" class="draggable-image" draggable="true" id="image5">
+      <img src="Images/image6.png" alt="Horn" class="draggable-image" draggable="true" id="image6">
+      <img src="Images/image7.png" alt="Amp 3" class="draggable-image" draggable="true" id="image7">
+      <img src="Images/image8.png" alt="Monitor" class="draggable-image" draggable="true" id="image8">
+      <img src="Images/image9.png" alt="In-Ear" class="draggable-image" draggable="true" id="image9">
+      <img src="Images/image10.png" alt="Percussion" class="draggable-image" draggable="true" id="image10">
+    </div>
+
+    <div id="canvas-container">
+      <input type="text" id="text-field" placeholder="Enter Title Here">
+      <canvas id="canvas" width="3300" height="2550"></canvas> <!-- Landscape Mode -->
+    </div>
+  </div>
+
+  <div class="button-container">
+    <button onclick="downloadImage()">Download as JPG</button>
+    <button onclick="downloadPDF()">Download as PDF</button>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
+  <script>
+    const canvas = document.getElementById("canvas");
+    const canvasContainer = document.getElementById("canvas-container");
+    const textField = document.getElementById("text-field");
+    let selectedElement = null;
+
+    function resizeCanvasContainer() {
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      const aspectRatio = 3300 / 2550; // Portrait mode aspect ratio
+      let newWidth = viewportWidth * 0.8;
+      let newHeight = newWidth / aspectRatio;
+
+      if (newHeight > viewportHeight * 0.8) {
+        newHeight = viewportHeight * 0.8;
+        newWidth = newHeight * aspectRatio;
+      }
+
+      canvasContainer.style.width = `${newWidth}px`;
+      canvasContainer.style.height = `${newHeight}px`;
+    }
+
+    window.addEventListener("load", resizeCanvasContainer);
+    window.addEventListener("resize", resizeCanvasContainer);
+
+    document.querySelectorAll('.draggable-image').forEach(img => {
+      img.addEventListener('dragstart', (e) => {
+        e.dataTransfer.setData("text/plain", e.target.id);
+      });
+    });
+
+    canvas.addEventListener("dragover", (e) => e.preventDefault());
+
+    canvas.addEventListener("drop", (e) => {
+      e.preventDefault();
+      const imageId = e.dataTransfer.getData("text/plain");
+      const image = document.getElementById(imageId);
+      
+      const containerRect = canvasContainer.getBoundingClientRect();
+      const scaleX = canvas.width / containerRect.width;
+      const scaleY = canvas.height / containerRect.height;
+      const offsetX = (e.clientX - containerRect.left) * scaleX;
+      const offsetY = (e.clientY - containerRect.top) * scaleY;
+
+      const resizableBox = document.createElement('div');
+      resizableBox.classList.add('resizable-box');
+      resizableBox.style.left = `${offsetX / scaleX}px`;
+      resizableBox.style.top = `${offsetY / scaleY}px`;
+
+      // Reduced initial size by 50%
+      const aspectRatio = image.naturalWidth / image.naturalHeight;
+      const initialWidth = 100;
+      const initialHeight = initialWidth / aspectRatio;
+      resizableBox.style.width = `${initialWidth}px`;
+      resizableBox.style.height = `${initialHeight}px`;
+
+      const droppedImage = document.createElement('img');
+      droppedImage.src = image.src;
+      droppedImage.style.width = '100%';
+      droppedImage.style.height = '100%';
+      resizableBox.appendChild(droppedImage);
+
+      canvasContainer.appendChild(resizableBox);
+      resizableBox.addEventListener("click", (e) => {
+        e.stopPropagation();
+        selectElement(resizableBox);
+      });
+
+      interact(resizableBox)
+        .draggable({
+          listeners: { move: dragMoveListener },
+          modifiers: [
+            interact.modifiers.restrictRect({ restriction: "#canvas-container", endOnly: true })
+          ]
+        })
+        .resizable({
+          edges: { left: true, right: true, bottom: true, top: true },
+          modifiers: [
+            interact.modifiers.restrictEdges({ outer: '#canvas-container' }),
+            interact.modifiers.aspectRatio({ ratio: aspectRatio })
+          ]
+        })
+        .on('resizemove', function (event) {
+          const { width, height } = event.rect;
+          resizableBox.style.width = `${width}px`;
+          resizableBox.style.height = `${height}px`;
+        });
+    });
+
+    function addTextLabel() {
+      const textLabel = document.createElement("div");
+      textLabel.classList.add("text-label", "placeholder");
+      textLabel.contentEditable = "true";
+      textLabel.textContent = "Label Name";
+      textLabel.style.left = "50px";
+      textLabel.style.top = "50px";
+
+      textLabel.addEventListener("focus", () => {
+        if (textLabel.classList.contains("placeholder")) {
+          textLabel.classList.remove("placeholder");
+          textLabel.textContent = "";
+        }
+      });
+
+      textLabel.addEventListener("blur", () => {
+        if (textLabel.textContent.trim() === "") {
+          textLabel.classList.add("placeholder");
+          textLabel.textContent = "Enter text here...";
+        }
+      });
+
+      canvasContainer.appendChild(textLabel);
+      textLabel.addEventListener("click", (e) => {
+        e.stopPropagation();
+        selectElement(textLabel);
+      });
+
+      interact(textLabel)
+        .draggable({
+          listeners: { move: dragMoveListener },
+          modifiers: [ interact.modifiers.restrictRect({ restriction: "#canvas-container", endOnly: true }) ]
+        })
+        .resizable({
+          edges: { left: true, right: true, bottom: true, top: true }
+        })
+        .on("resizemove", (event) => {
+          const { width, height } = event.rect;
+          textLabel.style.width = `${width}px`;
+          textLabel.style.height = `${height}px`;
+          resizeTextToFitProportionally(textLabel, width, height);
+        });
+    }
+
+    function resizeTextToFitProportionally(element, width, height) {
+      const baseFontSize = 36;
+      const scaleFactor = Math.min(width / 200, height / 40);
+      element.style.fontSize = `${baseFontSize * scaleFactor}px`;
+    }
+
+    function dragMoveListener(event) {
+      const target = event.target;
+
+      // Calculate the new position using the data-x and data-y attributes
+      const x = (parseFloat(target.getAttribute("data-x")) || 0) + event.dx;
+      const y = (parseFloat(target.getAttribute("data-y")) || 0) + event.dy;
+
+      // Apply the transform translate style to move the element
+      target.style.transform = `translate(${x}px, ${y}px)`;
+
+      // Update the position attributes for the next move event
+      target.setAttribute("data-x", x);
+      target.setAttribute("data-y", y);
+    }
+
+    function selectElement(element) {
+      if (selectedElement) {
+        selectedElement.classList.remove("selected");
+      }
+      selectedElement = element;
+      selectedElement.classList.add("selected");
+    }
+
+    // Deselect element when clicking outside of any selected element in the canvas container
+    canvasContainer.addEventListener("click", (e) => {
+      if (selectedElement && !selectedElement.contains(e.target)) {
+        selectedElement.classList.remove("selected");
+        selectedElement = null;
+      }
+    });
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Delete" && selectedElement) {
+        selectedElement.remove();
+        selectedElement = null;
+      }
+    });
+
+    function loadImage(src) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.src = src;
+        img.onload = () => resolve(img);
+      });
+    }
+
+    function addTitleTextToCanvas(ctx, width) {
+      ctx.font = "bold 48px Arial";
+      ctx.textAlign = "center";
+      ctx.fillStyle = "#000";
+      ctx.fillText(textField.value, width / 2, 80);
+    }
+
+    // Updated downloadImage function
+    async function downloadImage() {
+      const tempCanvas = document.createElement('canvas');
+      tempCanvas.width = 3300;  // Match the original canvas dimensions
+      tempCanvas.height = 2550;
+      const tempCtx = tempCanvas.getContext('2d');
+      
+      // Fill with white background
+      tempCtx.fillStyle = 'white';
+      tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+
+      // Add title
+      tempCtx.font = "bold 96px Arial";  // Increased font size for higher resolution
+      tempCtx.textAlign = "center";
+      tempCtx.fillStyle = "#000";
+      tempCtx.fillText(textField.value || "Stage Plot", tempCanvas.width / 2, 160);
+
+      const containerRect = canvasContainer.getBoundingClientRect();
+      const scaleX = tempCanvas.width / containerRect.width;
+      const scaleY = tempCanvas.height / containerRect.height;
+
+      // Draw images
+      for (const box of document.querySelectorAll(".resizable-box")) {
+        const img = await loadImage(box.querySelector('img').src);
+        const transform = box.style.transform;
+        const matrix = new DOMMatrix(transform);
+        
+        const rect = box.getBoundingClientRect();
+        const x = (rect.left - containerRect.left) * scaleX;
+        const y = (rect.top - containerRect.top) * scaleY;
+        const width = rect.width * scaleX;
+        const height = rect.height * scaleY;
+        
+        tempCtx.drawImage(img, x, y, width, height);
+      }
+
+      // Draw text labels
+      for (const label of document.querySelectorAll(".text-label")) {
+        if (label.classList.contains("placeholder")) continue;
+        
+        const rect = label.getBoundingClientRect();
+        const x = (rect.left - containerRect.left) * scaleX;
+        const y = (rect.top - containerRect.top) * scaleY;
+        const width = rect.width * scaleX;
+        
+        const computedStyle = window.getComputedStyle(label);
+        const fontSize = parseFloat(computedStyle.fontSize) * scaleX;
+        
+        tempCtx.font = `${fontSize}px Arial`;
+        tempCtx.textAlign = "center";
+        tempCtx.fillStyle = "black";
+        const text = label.textContent.trim();
+        if (text && text !== "Label Name" && text !== "Enter text here...") {
+          tempCtx.fillText(text, x + width / 2, y + fontSize);
+        }
+      }
+
+      // Create and trigger download
+      const link = document.createElement('a');
+      link.download = 'stage-plot.jpg';
+      link.href = tempCanvas.toDataURL('image/jpeg', 1.0);
+      link.click();
+    }
+
+    // Updated downloadPDF function
+    async function downloadPDF() {
+      const tempCanvas = document.createElement('canvas');
+      tempCanvas.width = 3300;
+      tempCanvas.height = 2550;
+      const tempCtx = tempCanvas.getContext('2d');
+      
+      // Fill with white background
+      tempCtx.fillStyle = 'white';
+      tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+
+      // Add title
+      tempCtx.font = "bold 96px Arial";
+      tempCtx.textAlign = "center";
+      tempCtx.fillStyle = "#000";
+      tempCtx.fillText(textField.value || "Stage Plot", tempCanvas.width / 2, 160);
+
+      const containerRect = canvasContainer.getBoundingClientRect();
+      const scaleX = tempCanvas.width / containerRect.width;
+      const scaleY = tempCanvas.height / containerRect.height;
+
+      // Draw images
+      for (const box of document.querySelectorAll(".resizable-box")) {
+        const img = await loadImage(box.querySelector('img').src);
+        const rect = box.getBoundingClientRect();
+        const x = (rect.left - containerRect.left) * scaleX;
+        const y = (rect.top - containerRect.top) * scaleY;
+        const width = rect.width * scaleX;
+        const height = rect.height * scaleY;
+        
+        tempCtx.drawImage(img, x, y, width, height);
+      }
+
+      // Draw text labels
+      for (const label of document.querySelectorAll(".text-label")) {
+        if (label.classList.contains("placeholder")) continue;
+        
+        const rect = label.getBoundingClientRect();
+        const x = (rect.left - containerRect.left) * scaleX;
+        const y = (rect.top - containerRect.top) * scaleY;
+        const width = rect.width * scaleX;
+        
+        const computedStyle = window.getComputedStyle(label);
+        const fontSize = parseFloat(computedStyle.fontSize) * scaleX;
+        
+        tempCtx.font = `${fontSize}px Arial`;
+        tempCtx.textAlign = "center";
+        tempCtx.fillStyle = "black";
+        const text = label.textContent.trim();
+        if (text && text !== "Label Name" && text !== "Enter text here...") {
+          tempCtx.fillText(text, x + width / 2, y + fontSize);
+        }
+      }
+
+      // Create and save PDF
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({
+        orientation: "landscape",
+        unit: "pt",
+        format: [tempCanvas.width, tempCanvas.height]
+      });
+      
+      pdf.addImage(
+        tempCanvas.toDataURL("image/jpeg", 1.0),
+        "JPEG",
+        0,
+        0,
+        tempCanvas.width,
+        tempCanvas.height
+      );
+      
+      pdf.save("stage-plot.pdf");
+    }
+
+  </script>
+</body>
+</html>
