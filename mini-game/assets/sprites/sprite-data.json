@@ -1,0 +1,168 @@
+{
+    "idlingFrames": [
+      {
+        "name": "idle-00",
+        "position": {
+          "x": 0,
+          "y": 0,
+          "w": 50,
+          "h": 37
+        }
+      },
+      {
+        "name": "idle-01",
+        "position": {
+          "x": 50,
+          "y": 0,
+          "w": 50,
+          "h": 37
+        }
+      },
+      {
+        "name": "idle-02",
+        "position": {
+          "x": 100,
+          "y": 0,
+          "w": 50,
+          "h": 37
+        }
+      },
+      {
+        "name": "idle-03",
+        "position": {
+          "x": 150,
+          "y": 0,
+          "w": 50,
+          "h": 37
+        }
+      }
+    ],
+
+    "idlingAttackFrames": [
+      {
+        "name": "idle-2-00",
+        "position": {
+          "x": 150,
+          "y": 185,
+          "w": 50,
+          "h": 37
+        }
+      },
+      {
+        "name": "idle-2-01",
+        "position": {
+          "x": 200,
+          "y": 185,
+          "w": 50,
+          "h": 37
+        }
+      },
+      {
+        "name": "idle-2-02",
+        "position": {
+          "x": 250,
+          "y": 185,
+          "w": 50,
+          "h": 37
+        }
+      },
+      {
+        "name": "idle-2-03",
+        "position": {
+          "x": 300,
+          "y": 185,
+          "w": 50,
+          "h": 37
+        }
+      }
+    ],
+
+    "runningFrames": [
+      {
+        "name": "run-00",
+        "position": {
+          "x": 50,
+          "y": 37,
+          "w": 50,
+          "h": 37
+        }
+      },
+      {
+        "name": "run-01",
+        "position": {
+          "x": 100,
+          "y": 37,
+          "w": 50,
+          "h": 37
+        }
+      },
+      {
+        "name": "run-02",
+        "position": {
+          "x": 150,
+          "y": 37,
+          "w": 50,
+          "h": 37
+        }
+      },
+      {
+        "name": "run-03",
+        "position": {
+          "x": 200,
+          "y": 37,
+          "w": 50,
+          "h": 37
+        }
+      },
+      {
+        "name": "run-04",
+        "position": {
+          "x": 250,
+          "y": 37,
+          "w": 50,
+          "h": 37
+        }
+      },
+      {
+        "name": "run-05",
+        "position": {
+          "x": 300,
+          "y": 37,
+          "w": 50,
+          "h": 37
+        }
+      }
+    ],
+
+    "attackingFrames": [
+     
+      {
+        "name": "attack-00",
+        "position": {
+          "x": 50,
+          "y": 259,
+          "w": 50,
+          "h": 37
+        }
+      },
+      {
+        "name": "attack-01",
+        "position": {
+          "x": 100,
+          "y": 259,
+          "w": 50,
+          "h": 37
+        }
+      },
+      {
+        "name": "attack-02",
+        "position": {
+          "x": 150,
+          "y": 259,
+          "w": 50,
+          "h": 37
+        }
+      }
+    ]
+  }
+  
