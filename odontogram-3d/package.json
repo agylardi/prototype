@@ -1,0 +1,15 @@
+{
+  "name": "odontogram-3d",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Interactive 3D odontogram \u2014 per-tooth health states driven by backend data, with pointer and device-tilt parallax.",
+  "scripts": {
+    "start": "node server/dev-server.mjs",
+    "dev": "node server/dev-server.mjs",
+    "test": "node tests/unit.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

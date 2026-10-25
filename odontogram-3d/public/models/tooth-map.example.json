@@ -1,0 +1,7 @@
+{
+  "_comment": "Optional. Only needed when node names cannot be parsed automatically. Copy to tooth-map.json and list the exceptions — anything omitted still falls back to the naming convention.",
+  "Cube.014": { "tooth": 11, "state": "healthy" },
+  "Cube.015": { "tooth": 11, "state": "unhealthy" },
+  "Cube.016": { "tooth": 11, "state": "very-unhealthy" },
+  "Gum_Socket_A": { "tooth": 11, "state": "missing" }
+}

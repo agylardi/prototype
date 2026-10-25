@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Interactive odontogram — Three.js prototype</title>
+<meta name="description" content="A 3D teeth chart whose per-tooth condition is driven by backend data.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css">
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+  }
+}
+</script>
+<script type="module" src="./src/main.js"></script>
+</head>
+
+<body>
+  <canvas id="scene"></canvas>
+
+  <div class="loader" data-loader>
+    <span class="loader__mark" aria-hidden="true"></span>
+    <p class="loader__label" data-loader-label>Preparing the scene…</p>
+  </div>
+
+  <header class="topbar">
+    <div class="brand">
+      <p class="brand__eyebrow">Interactive odontogram</p>
+      <h1 class="brand__title">Chart&nbsp;3D</h1>
+    </div>
+    <div class="meta">
+      <span class="pill" data-status data-level="loading">
+        <span class="pill__dot" aria-hidden="true"></span>
+        <span data-status-text>Starting…</span>
+      </span>
+      <span class="pill pill--quiet" data-source>—</span>
+      <button class="pill pill--action" type="button" data-motion hidden>Use device tilt</button>
+    </div>
+  </header>
+
+  <section class="chart" data-chart aria-label="Tooth chart">
+    <div class="chart__head">
+      <h2 class="chart__title">Chart</h2>
+      <div class="chart__controls">
+        <div class="toggle" data-numbering-toggle role="group" aria-label="Numbering system">
+          <button type="button" data-scheme="fdi" aria-pressed="true">FDI</button>
+          <button type="button" data-scheme="universal" aria-pressed="false">Universal</button>
+        </div>
+        <button class="chart__collapse" type="button" data-collapse aria-expanded="true" aria-controls="chart-body">Hide</button>
+      </div>
+    </div>
+
+    <div class="chart__body" id="chart-body">
+      <div class="chart__grid" data-chart-grid></div>
+
+      <aside class="detail" data-detail hidden>
+        <div class="detail__head">
+          <span class="detail__code" data-detail-code>—</span>
+          <div>
+            <p class="detail__name" data-detail-name>—</p>
+            <p class="detail__alt" data-detail-alt>—</p>
+          </div>
+        </div>
+        <div class="detail__states" data-state-buttons></div>
+      </aside>
+    </div>
+
+    <footer class="legend">
+      <span class="legend__item"><i class="legend__mark" data-state="healthy"></i>Healthy</span>
+      <span class="legend__item"><i class="legend__mark" data-state="unhealthy"></i>Unhealthy</span>
+      <span class="legend__item"><i class="legend__mark" data-state="very-unhealthy"></i>Very unhealthy</span>
+      <span class="legend__item"><i class="legend__mark" data-state="missing"></i>Missing</span>
+      <span class="legend__hint">Tap a tooth in the scene or on the chart</span>
+    </footer>
+  </section>
+</body>
+</html>
